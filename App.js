@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, BackHandler, Alert} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  BackHandler,
+  Alert,
+  Image,
+  TouchableHighlight,
+} from 'react-native';
 
 import {
   createTextMessage,
@@ -114,6 +121,31 @@ const App = () => {
           onPressMessage={handlePressMessage}
         />
       </View>
+    );
+  };
+
+  const renderFullscreenImage = () => {
+    const {fullscreenImageId} = appState;
+    if (!fullscreenImageId) {
+      return null;
+    }
+
+    const findImage = appState.message.find(
+      image => image.id === fullscreenImageId,
+    );
+
+    if (!findImage) {
+      return null;
+    }
+
+    const {uri} = findImage;
+
+    return (
+      <TouchableHighlight
+        style={styles.fullscreenOverlay}
+        onPress={dismissFullscreenImage}>
+        <Image source={{uri}} style={styles.fullscreenImage} />
+      </TouchableHighlight>
     );
   };
 
